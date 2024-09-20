@@ -43,14 +43,12 @@ def test_function():
     n       = 1000
     
     ans = trapz_rule(n,up_lim,low_lim,func)
-    print(ans)
-    print(math.sqrt(math.pi)/2)
-    
-    val = simpson_rule(up_lim,low_lim,func)
-    print(val)
+    print("trapizoidal= \t", ans)
     
     val2 = composit_simpson(n,up_lim,low_lim,func)
-    print(val2)
+    print("simpson= \t", val2)
+    
+    print("actual= \t", math.sqrt(math.pi)/2)
 ##-----------------------------------------------------------------##
 test_function()
 ##-----------------------------------------------------------------##
