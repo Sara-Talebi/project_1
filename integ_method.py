@@ -24,7 +24,7 @@ def test_function():
     
     ans = trapz_rule(n,up_lim,low_lim,func)
     print(ans)
-    print('\n',math.sqrt(math.pi)/2)
+    print(math.sqrt(math.pi)/2)
  	
  	
 ##-----------------------------------------------------------------##
