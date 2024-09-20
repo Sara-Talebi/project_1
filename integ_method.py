@@ -2,6 +2,26 @@ import numpy as np
 import math
 
 ##-----------------------------------------------------------------##
+def composit_simpson(n,up_lim,low_lim,func):
+    h = (up_lim-low_lim)/n
+    k1 = func(low_lim)
+    k2 = 0.0 
+    b = int((n+1)/2)
+    for i in range(1, b):
+        k2 += func(low_lim + (2 * i * h) - h)
+    k3 = 0.0
+    b = int(((n+1)/2)-1)
+    for j in range(1, b):
+    	k2 += func(low_lim + (2 * i * h))
+    k4 = func(up_lim)
+    final_val = (h/3) * (k1 + (4 * k2) + (2 * k3) + k4)
+    return final_val
+##-----------------------------------------------------------------##
+def simpson_rule(up_lim,low_lim,func):
+    h = (up_lim-low_lim)/6
+    final_val = h * (func(low_lim) + (4 * func((up_lim+low_lim)/2)) + func(up_lim))
+    return final_val
+##-----------------------------------------------------------------##
 def trapz_rule(n,up_lim,low_lim,func):
     delta_x = (up_lim - low_lim)/n
     k_sum   = 0.0
@@ -25,8 +45,12 @@ def test_function():
     ans = trapz_rule(n,up_lim,low_lim,func)
     print(ans)
     print(math.sqrt(math.pi)/2)
- 	
- 	
+    
+    val = simpson_rule(up_lim,low_lim,func)
+    print(val)
+    
+    val2 = composit_simpson(n,up_lim,low_lim,func)
+    print(val2)
 ##-----------------------------------------------------------------##
 test_function()
 ##-----------------------------------------------------------------##
