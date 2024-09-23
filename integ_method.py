@@ -1,6 +1,12 @@
 import numpy as np
 import math
+from scipy.integrate import trapezoid,simpson
 
+##-----------------------------------------------------------------##
+#Define the gaussian function to integrate 
+def func(x):
+    a = np.exp(-(x**2))
+    return a
 ##-----------------------------------------------------------------##
 def riemann_right(n,up_lim,low_lim,func):
     delta_x = (up_lim - low_lim)/n
@@ -75,31 +81,33 @@ def trapz_rule_v2(n,up_lim,low_lim,func):
     final_val = vol * f_avg
     return final_val
 ##-----------------------------------------------------------------##
-#This part of the code is added for the testing purpose independent from main code.
-def test_function_A1():
-    def func(x):
-        a = math.exp(-(x**2))
-        return a
-    
-    up_lim  = 1e3
-    low_lim = -up_lim
-    n       = int(1e6)
-    
+def int_calculator(n,up_lim,low_lim):
+
+    print("solution to the gaussian function by Sara-developed methods :D")
+    #Compute the integral using Trapezoidal rule
     ans1 = trapz_rule_v1(n,up_lim,low_lim,func)
-    ans2 = trapz_rule_v2(n,up_lim,low_lim,func)
-    print("trapizoidal= \t", ans1)
-    print("trapizoidal= \t", ans2)
+    print("Trapezoidal= \t", ans1)
     
+    #Compute the integral using Composite-Simpson's rule
     val2 = composite_simpson_v2(n,up_lim,low_lim,func)
-    print("simpson= \t", val2)
+    print("Simpson= \t", val2)
     
+    #Compute the integral using Riemann left and right rule
     val1 = riemann_left(n,up_lim,low_lim,func)
     val2 = riemann_right(n,up_lim,low_lim,func)
-    print("riemann_left= \t", val1)
-    print("riemann_right= \t", val2)
+    print("Riemann_left= \t", val1)
+    print("Riemann_right= \t", val2)
     
-    print("actual= \t", math.sqrt(math.pi))
-##-----------------------------------------------------------------##
-#test_function_A1()
+    #Integrating the Gaussian function using scipy
+    print("solution to the gaussian function using scipy")
+    samp_point = np.linspace(low_lim, up_lim, n)
+    ans = trapezoid(func(samp_point),samp_point)
+    print("Trapezoidal= \t", ans)
+    val = simpson(func(samp_point),samp_point)
+    print("Simpson= \t", val)
+    
+    #The analytical answer to the qaussian function
+    print("The analytical answer to the qaussian function")
+    print("Analytical= \t",math.sqrt(math.pi))
 ##-----------------------------------------------------------------##
  
