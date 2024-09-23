@@ -36,8 +36,8 @@ def rk4_method(n,t,dt,x,v,amp,omega):
     k3v = -amp * np.sin(omega*(t + (dt/2))) * (x + (dt/2 * k2x))
     
     #k4=ftn+dt/2, yn+dt.k3/2)
-    k4x = v + (dt/2 * k3v)
-    k4v = -amp * np.sin(omega*(t + (dt/2))) * (x + (dt/2 * k3x))
+    k4x = v + (dt * k3v)
+    k4v = -amp * np.sin(omega*(t + (dt/2))) * (x + (dt * k3x))
     
     #yn+1 = yn + dt/6(k1+2k2+2k3+k4)
     new_x = x + (dt/6)*(k1x + (2 * k2x) + (2 * k3x) + k4x)
