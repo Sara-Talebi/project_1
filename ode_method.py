@@ -4,39 +4,12 @@ import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 
 ##-----------------------------------------------------------------##
-#solve Hill differential eq using scipy
-def hill_solv_scipy(amp,omega):
-    #parameters
-    t_span = [0.0, 1000.0]	#time range from 0 to 1000
-    y0     = [0.0,1.0] 
-    sol = solve_ivp(hill_func,t_span,y0,args=(amp,omega),method='RK45')
-    return sol
-##-----------------------------------------------------------------##
 #Defining Hill eg as a system of first-order ODEs to calculate by scipy
 def hill_func(t,y,amp,omega):
     x, v = y 	#A vector of [x,v]
     dxdt = v
     dvdt = -amp * np.sin(omega*t) * x
     return [dxdt, dvdt]
-##-----------------------------------------------------------------##
-#Define the ODE problem (Hill Differential Eqation) as a system of first-order ODEs
-def hill_eq_solv(n,t0,dt,x0,v0,amp,omega):    
-    #Implementation of Euler's method and Runge-Kutta 4th order method
-    x_em, v_em, t_em = euler_calculator(n,t0,dt,x0,v0,amp,omega)
-    x_rk4, v_rk4, t_rk4 = rk4_calculator(n,t0,dt,x0,v0,amp,omega)
-    
-    #Plot to compare the Hill equation's solutions obtained by Euler's method and RK4	
-    plt.figure()
-    plt.plot(t_em,x_em, label="Euler's method")
-    plt.plot(t_rk4,x_rk4, label='Runge-Kutta method')
-    plt.xlabel('Time')
-    plt.ylabel('Displacement')
-    plt.title('Solution to the Hill eq')
-    plt.legend()
-    plt.show()
-    
-    #Returning RK4 calculated solutions 
-    return x_rk4, v_rk4, t_rk4
 ##-----------------------------------------------------------------##
 #using the rk4_method function to loop over n for calculating next points
 def rk4_calculator(n,t,dt,x,v,amp,omega):
@@ -104,4 +77,36 @@ def euler_method(n,t,dt,x,v,amp,omega):
     new_v = v + (dt * -amp * np.sin(omega*t) * x)
     return new_x, new_v
 ##-----------------------------------------------------------------##
+def ode_solver(n,t0,dt,x0,v0,amp,omega):
+    #Implementation of Euler's method and Runge-Kutta 4th order method 
+    x_em, v_em, t_em = euler_calculator(n,t0,dt,x0,v0,amp,omega)
+    x_rk4, v_rk4, t_rk4 = rk4_calculator(n,t0,dt,x0,v0,amp,omega)
+    
+    #Plot to compare the Hill equation's solutions obtained by Euler's method and RK4	
+    plt.figure()
+    plt.plot(t_em,x_em, label="Euler's method")
+    plt.plot(t_rk4,x_rk4, label='Runge-Kutta method')
+    plt.xlabel('Time')
+    plt.ylabel('Displacement')
+    plt.title('Solution to the Hill eq of Euler and RK4')
+    plt.legend()
+    plt.show()
+    
+    #solve Hill differential eq using scipy
+    #parameters
+    t_span = [0.0, 1000.0]	#time range from 0 to 1000
+    y0     = [0.0,1.0] 
+    sol = solve_ivp(hill_func,t_span,y0,args=(amp,omega),method='RK45')
+    
+    #ploting the result of scipy/sara based RK4 for comarison
+    plt.figure()
+    plt.plot(sol.t,sol.y[0], label="scipy rk4")
+    plt.plot(t_rk4,x_rk4, label='sara rk4')
+    plt.xlabel('Time')
+    plt.ylabel('Displacement')
+    plt.title('Solution to the Hill eq based on developed and scipy RK4')
+    plt.legend()
+    plt.show() 	
+##-----------------------------------------------------------------##
+
  

@@ -1,9 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-from scipy.integrate import solve_ivp,trapezoid,simpson
 from integ_method import int_calculator
-from ode_method import  hill_solv_scipy, hill_eq_solv
+from ode_method import  ode_solver
 
 
 ##-----------------------------------------------------------------##
@@ -18,20 +17,10 @@ def main_function():
     amp   = 0.5		#amplitude (A)
     omega = 5.0		#frequency 
     
-    #solve using Euler's method and Runge-Kutta 4th order method and returning a plot of both method results
-    x_rk4, v_rk4, t_rk4 = hill_eq_solv(n,t0,dt,x0,v0,amp,omega)
-    #solve Hill differential eq using scipy 
-    sol = hill_solv_scipy(amp,omega)   
+    #solve Hill eq using Euler's method and Runge-Kutta 4th order method and returning a plot of both developed bethod
+    #solve Hill eq using scipy package and ploting the results + RK4 of mine developement for comparison 
+    ode_solver(n,t0,dt,x0,v0,amp,omega)
     
-    #ploting the result of scipy/sara based RK4 for comarison
-    plt.figure()
-    plt.plot(sol.t,sol.y[0], label="scipy rk4")
-    plt.plot(t_rk4,x_rk4, label='sara rk4')
-    plt.xlabel('Time')
-    plt.ylabel('Displacement')
-    plt.title('Solution to the Hill eq')
-    plt.legend()
-    plt.show() 	
   
     
     #Set up integration limits and parameters
@@ -39,6 +28,7 @@ def main_function():
     low_lim = -up_lim	#lower_limit
     n       = int(1e6)	#number of divisions for integration
     
+    #This function prints the result of gaussian integration based on trapz, simpson, riemann, scipy methods, and analytically
     int_calculator(n,up_lim,low_lim)
     
     
