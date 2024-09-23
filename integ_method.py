@@ -75,7 +75,8 @@ def trapz_rule_v2(n,up_lim,low_lim,func):
     final_val = vol * f_avg
     return final_val
 ##-----------------------------------------------------------------##
-def test_function():
+#This part of the code is added for the testing purpose independent from main code.
+def test_function_A1():
     def func(x):
         a = math.exp(-(x**2))
         return a
@@ -84,8 +85,10 @@ def test_function():
     low_lim = -up_lim
     n       = int(1e6)
     
-    ans = trapz_rule_v1(n,up_lim,low_lim,func)
-    print("trapizoidal= \t", ans)
+    ans1 = trapz_rule_v1(n,up_lim,low_lim,func)
+    ans2 = trapz_rule_v2(n,up_lim,low_lim,func)
+    print("trapizoidal= \t", ans1)
+    print("trapizoidal= \t", ans2)
     
     val2 = composite_simpson_v2(n,up_lim,low_lim,func)
     print("simpson= \t", val2)
@@ -97,6 +100,6 @@ def test_function():
     
     print("actual= \t", math.sqrt(math.pi))
 ##-----------------------------------------------------------------##
-test_function()
+#test_function_A1()
 ##-----------------------------------------------------------------##
  
