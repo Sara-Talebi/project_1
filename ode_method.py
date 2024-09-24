@@ -4,15 +4,19 @@ import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 
 ##-----------------------------------------------------------------##
-#Defining Hill eg as a system of first-order ODEs to calculate by scipy
 def hill_func(t,y,amp,omega):
+"""
+Defining Hill eg as a system of first-order ODEs to calculate by scipy library
+"""
     x, v = y 	#A vector of [x,v]
     dxdt = v
     dvdt = -amp * np.sin(omega*t) * x
     return [dxdt, dvdt]
 ##-----------------------------------------------------------------##
-#using the rk4_method function to loop over n for calculating next points
 def rk4_calculator(n,t,dt,x,v,amp,omega):
+"""
+Using the rk4_method function to loop over n_step for calculating next n points
+"""
     x_list = [x]	#creating a list to store x values
     v_list = [v]	#creating a list to store v values
     t_list = [t]	#creating a list to store t values
@@ -53,8 +57,10 @@ def rk4_method(n,t,dt,x,v,amp,omega):
     
     return new_x, new_v
 ##-----------------------------------------------------------------##
-#using the euker_method function to loop over n for calculating next points
 def euler_calculator(n,t,dt,x,v,amp,omega):
+"""
+using the euler_method function to loop over n for calculating next n points
+"""
     x_list = [x]	#creating a list to store x values
     v_list = [v]	#creating a list to store v values
     t_list = [t]	#creating a list to store t values
@@ -78,6 +84,9 @@ def euler_method(n,t,dt,x,v,amp,omega):
     return new_x, new_v
 ##-----------------------------------------------------------------##
 def ode_solver(n,t0,dt,x0,v0,amp,omega):
+"""
+Implementation of Euler's method and Runge-Kutta 4th order method on the Hill differential equation and plotting them. also, plotting the RK4 result versus scipy provided RK45.
+"""
     #Implementation of Euler's method and Runge-Kutta 4th order method 
     x_em, v_em, t_em = euler_calculator(n,t0,dt,x0,v0,amp,omega)
     x_rk4, v_rk4, t_rk4 = rk4_calculator(n,t0,dt,x0,v0,amp,omega)

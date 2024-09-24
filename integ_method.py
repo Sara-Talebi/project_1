@@ -3,12 +3,17 @@ import math
 from scipy.integrate import trapezoid,simpson
 
 ##-----------------------------------------------------------------##
-#Define the gaussian function to integrate 
 def func(x):
+"""
+Define the gaussian function to integrate using Trapezoidal, Simpson, and Riemann methods.
+"""
     a = np.exp(-(x**2))
     return a
 ##-----------------------------------------------------------------##
 def riemann_right(n,up_lim,low_lim,func):
+"""
+For the left rule, the function is approximated by its values at the left endpoints of the subintervals. This gives multiple rectangles with base Δx and height f(a + iΔx). Doing this for i = 0, 1, ..., n − 1, and summing the resulting areas gives the approximate answer.
+"""
     delta_x = (up_lim - low_lim)/n
     r_sum = 0.0
     for i in range(1, n+1):
@@ -17,6 +22,9 @@ def riemann_right(n,up_lim,low_lim,func):
     return r_sum
 ##-----------------------------------------------------------------##
 def riemann_left(n,up_lim,low_lim,func):
+"""
+For the right rule, the function is approximated by its values at the right endpoints of the subintervals. This gives multiple rectangles with base Δx and height f(a + iΔx). Doing this for i = 1, ..., n, and summing the resulting areas gives the approximate answer. 
+"""
     delta_x = (up_lim - low_lim)/n
     r_sum = 0.0
     for i in range(n):
@@ -60,6 +68,9 @@ def simpson_rule(up_lim,low_lim,func):
     return final_val
 ##-----------------------------------------------------------------##
 def trapz_rule_v1(n,up_lim,low_lim,func):
+"""
+Uniform grid trapezoidal rule, for a domain discretized into N equally spaced panels.
+"""
     delta_x = (up_lim - low_lim)/n
     k_sum   = 0.0
     for i  in range(1, n):
@@ -82,6 +93,9 @@ def trapz_rule_v2(n,up_lim,low_lim,func):
     return final_val
 ##-----------------------------------------------------------------##
 def int_calculator(n,up_lim,low_lim):
+"""
+Solving the Gaussian function using Trapezoidal, Simpson, Riemann method and also calculating by scipy library (trapz and simpson). At the last line, printing the exact analytical solution too. 
+"""
 
     print("solution to the gaussian function by Sara-developed methods :D")
     #Compute the integral using Trapezoidal rule
