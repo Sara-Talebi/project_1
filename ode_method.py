@@ -115,9 +115,9 @@ def ode_solver(n, t0, dt, x0, v0, amp, omega):
 
     # solve Hill differential eq using Scipy
     # parameters
-    t_span = [0.0, 1000.0]  # time range from 0 to 1000
-    y0 = [0.0, 1.0]
-    sol = solve_ivp(hill_func, t_span, y0, args=(amp, omega), method="RK45")
+    t_span = [t0, n*dt]  # time range from 0 to 1000
+    y0 = [x0, v0]
+    sol = solve_ivp(hill_func, t_span, y0, args=(amp, omega), method="RK45", t_eval=np.linspace(t0, n*dt, n+1))
     # Scipy solution
     t_scipy = sol.t
     x_scipy = sol.y[0]
@@ -125,11 +125,11 @@ def ode_solver(n, t0, dt, x0, v0, amp, omega):
     
     # Energy Conservation Check for RK4 Method
     energy_rk4 = [compute_energy(x, v) for x, v in zip(x_rk4, v_rk4)]
-    
+    energy_scipy = [compute_energy(x, v) for x, v in zip(x_scipy, v_scipy)]
     # Error computation
-    error_euler = np.abs(np.array(x_em) - x_scipy)
-    error_rk4 = np.abs(np.array(x_rk4) - x_scipy)
-
+    error_em = np.abs(np.array(x_em) - np.array(x_scipy))
+    error_rk4 = np.abs(np.array(x_rk4) - np.array(x_scipy))
+    
     # Plot solutions
     plt.figure()
     plt.plot(t_em, x_em, label="Euler's Method")
@@ -143,20 +143,21 @@ def ode_solver(n, t0, dt, x0, v0, amp, omega):
 
     # Plot error
     plt.figure()
-    plt.plot(t_em, error_euler, label="Euler Error")
+    plt.plot(t_em, error_em, label="Euler Error")
     plt.plot(t_rk4, error_rk4, label="RK4 Error")
     plt.xlabel("Time")
     plt.ylabel("Error (|Numerical - Scipy|)")
-    plt.title("Error in Numerical Methods vs Scipy RK45")
+    plt.title("Error in RK4 vs Scipy RK45")
     plt.legend()
     plt.show()
 
     # Plot total energy over time for RK4 method to check energy conservation
     plt.figure()
+    plt.plot(t_scipy, energy_scipy, label="Total Energy (scipy)")
     plt.plot(t_rk4, energy_rk4, label="Total Energy (RK4)")
     plt.xlabel("Time")
     plt.ylabel("Total Energy")
-    plt.title("Energy Conservation in RK4 Method")
+    plt.title("Energy Conservation in RK4 and Scipy RK45 Method")
     plt.legend()
     plt.show()
     

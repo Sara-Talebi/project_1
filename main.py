@@ -11,7 +11,7 @@ def main_function():
     main function to define all variables and constants and calling functions. To observe any changes for ODE and integration just change parameters in this function.
     """
     # Parameters for the Hill eq. ODE
-    n = int(1e4)  # number of steps
+    n = int(1e3)  # number of steps
     t0 = 0.0  # initial time
     dt = 0.1  # time step size
     x0 = 0.0  # initial displacement
