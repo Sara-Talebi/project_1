@@ -114,32 +114,39 @@ def int_calculator(n, up_lim, low_lim):
     Solving the Gaussian function using Trapezoidal, Simpson, Riemann method and also calculating by scipy library (trapz and simpson). At the last line, printing the exact analytical solution too.
     """
 
-    print("solution to the gaussian function by Sara-developed methods :D")
+    analytical_solution = math.sqrt(math.pi)  # The exact analytical answer to the Gaussian function
+
+    print("solution to the Gaussian function by Sara-developed methods :D")
+    
     # Compute the integral using Trapezoidal rule
     ans1 = trapz_rule_v1(n, up_lim, low_lim, func)
-    print("Trapezoidal= \t", ans1)
+    error_trap = np.abs(analytical_solution - ans1)
+    print(f"Trapezoidal= \t {ans1}, Error= {error_trap}")
 
     # Compute the integral using Composite-Simpson's rule
     val2 = composite_simpson_v2(n, up_lim, low_lim, func)
-    print("Simpson= \t", val2)
+    error_simp = np.abs(analytical_solution - val2)
+    print(f"Simpson= \t {val2}, Error= {error_simp}")
 
     # Compute the integral using Riemann left and right rule
     val1 = riemann_left(n, up_lim, low_lim, func)
     val2 = riemann_right(n, up_lim, low_lim, func)
-    print("Riemann_left= \t", val1)
-    print("Riemann_right= \t", val2)
+    error_riemann_left = np.abs(analytical_solution - val1)
+    error_riemann_right = np.abs(analytical_solution - val2)
+    print(f"Riemann_left= \t {val1}, Error= {error_riemann_left}")
+    print(f"Riemann_right= \t {val2}, Error= {error_riemann_right}")
 
-    # Integrating the Gaussian function using scipy
-    print("solution to the gaussian function using scipy")
+    # Integrating the Gaussian function using Scipy
     samp_point = np.linspace(low_lim, up_lim, n)
     ans = trapezoid(func(samp_point), samp_point)
-    print("Trapezoidal= \t", ans)
     val = simpson(func(samp_point), samp_point)
-    print("Simpson= \t", val)
+    error_scipy_trap = np.abs(analytical_solution - ans)
+    error_scipy_simp = np.abs(analytical_solution - val)
+    print(f"Scipy Trapezoidal= \t {ans}, Error= {error_scipy_trap}")
+    print(f"Scipy Simpson= \t {val}, Error= {error_scipy_simp}")
 
-    # The analytical answer to the qaussian function
-    print("The analytical answer to the qaussian function")
-    print("Analytical= \t", math.sqrt(math.pi))
+    # Print the exact analytical solution for comparison
+    print(f"Analytical= \t {analytical_solution}")
 
 
 ##-----------------------------------------------------------------##
