@@ -14,7 +14,20 @@ def hill_func(t, y, amp, omega):
     dvdt = -amp * np.sin(omega * t) * x
     return [dxdt, dvdt]
 
-
+##-----------------------------------------------------------------##
+def compute_energy(x, v):
+    """
+    Computes the total energy (kinetic + potential) for validation of energy conservation.
+    Assuming mass m = 1 and spring constant k = 1 for simplicity.
+    """
+    m = 1.0  # Mass
+    k = 1.0  # Spring constant
+    
+    kinetic_energy = 0.5 * m * v**2
+    potential_energy = 0.5 * k * x**2
+    total_energy = kinetic_energy + potential_energy
+    
+    return total_energy
 ##-----------------------------------------------------------------##
 def rk4_calculator(n, t, dt, x, v, amp, omega):
     """
@@ -109,7 +122,10 @@ def ode_solver(n, t0, dt, x0, v0, amp, omega):
     t_scipy = sol.t
     x_scipy = sol.y[0]
     v_scipy = sol.y[1]
-
+    
+    # Energy Conservation Check for RK4 Method
+    energy_rk4 = [compute_energy(x, v) for x, v in zip(x_rk4, v_rk4)]
+    
     # Error computation
     error_euler = np.abs(np.array(x_em) - x_scipy)
     error_rk4 = np.abs(np.array(x_rk4) - x_scipy)
@@ -135,4 +151,13 @@ def ode_solver(n, t0, dt, x0, v0, amp, omega):
     plt.legend()
     plt.show()
 
+    # Plot total energy over time for RK4 method to check energy conservation
+    plt.figure()
+    plt.plot(t_rk4, energy_rk4, label="Total Energy (RK4)")
+    plt.xlabel("Time")
+    plt.ylabel("Total Energy")
+    plt.title("Energy Conservation in RK4 Method")
+    plt.legend()
+    plt.show()
+    
 ##-----------------------------------------------------------------##
