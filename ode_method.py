@@ -142,14 +142,14 @@ def ode_solver(n, t0, dt, x0, v0, amp, omega):
     plt.show()
 
     # Plot error
-    plt.figure()
-    plt.plot(t_em, error_em, label="Euler Error")
-    plt.plot(t_rk4, error_rk4, label="RK4 Error")
-    plt.xlabel("Time")
-    plt.ylabel("Error (|Numerical - Scipy|)")
-    plt.title("Error in RK4 vs Scipy RK45")
-    plt.legend()
-    plt.show()
+    #plt.figure()
+    #plt.plot(t_em, error_em, label="Euler Error")
+    #plt.plot(t_rk4, error_rk4, label="RK4 Error")
+    #plt.xlabel("Time")
+    #plt.ylabel("Error (|Numerical - Scipy|)")
+    #plt.title("Error in RK4 vs Scipy RK45")
+    #plt.legend()
+    #plt.show()
 
     # Plot total energy over time for RK4 method to check energy conservation
     plt.figure()
@@ -160,5 +160,31 @@ def ode_solver(n, t0, dt, x0, v0, amp, omega):
     plt.title("Energy Conservation in RK4 and Scipy RK45 Method")
     plt.legend()
     plt.show()
+    
+    e_em = []
+    e_rk = []
+    n_step = []
+    while n >= 5000:
+        n = int(n)
+        x_em, v_em, t_em = euler_calculator(n, t0, dt, x0, v0, amp, omega)
+        x_rk4, v_rk4, t_rk4 = rk4_calculator(n, t0, dt, x0, v0, amp, omega)
+        t_span = [t0, n*dt]  # time range from 0 to 1000
+        y0 = [x0, v0]
+        sol = solve_ivp(hill_func, t_span, y0, args=(amp, omega), method="RK45", t_eval=np.linspace(t0, n*dt, n+1))
+        # Scipy solution
+        t_scipy = sol.t
+        x_scipy = sol.y[0]
+        v_scipy = sol.y[1]
+        # Error computation
+        error_em = np.abs(np.array(x_em) - np.array(x_scipy))
+        error_rk4 = np.abs(np.array(x_rk4) - np.array(x_scipy))
+        e_em.append(error_em)
+        e_rk.append(error_rk4)
+        n_step.append(n)
+        n -= 500
+        
+    print("error_euler=", e_em)
+    print("error_rkf=", e_rk)
+    print("num_step=", n_step)
     
 ##-----------------------------------------------------------------##
