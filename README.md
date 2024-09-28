@@ -22,7 +22,7 @@ Both problems are compared against exact solutions or Scipy-provided algorithms 
 **Error Analysis:**
    For both the ODE and the integration problems, errors are computed and printed:
    
-   __ODE Problem:__ Errors in the Euler and RK4 methods are compared to Scipy’s RK45 solution, and the error is plotted over time.
+   __ODE Problem:__ Errors in the Euler and RK4 methods are compared to Scipy’s RK45 solution in different number of steps.
    
    __Integral Problem:__ Errors are computed by comparing the numerical results with the exact analytic solution of the Gaussian function.
 
