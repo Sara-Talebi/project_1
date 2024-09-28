@@ -114,7 +114,7 @@ def int_calculator(n, up_lim, low_lim):
     dx_riem_left = []
     
     
-    #Increasing the number of steps to increase the acuracy
+    #Increasing the number of steps to increase the accuracy
     
     while n >= 100:
         n = int(n)
@@ -159,7 +159,7 @@ def int_calculator(n, up_lim, low_lim):
        
 
         # Print the exact analytical solution for comparison
-        #print(f"Analytical= \t {analytical_solution}")
+        print(f"Analytical= \t {analytical_solution}")
     
     # Plot error
     plt.figure()
